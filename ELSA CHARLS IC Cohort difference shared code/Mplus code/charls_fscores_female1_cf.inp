@@ -1,0 +1,93 @@
+TITLE:
+
+    CHARLS
+    Correlated factors model
+    Waves 1 2 3
+    Partial information
+    WLSMV
+    Factor scores
+    MALES
+    
+DATA:
+
+    FILE = "C:\Users\DELL\Documents\Mplus\charls_for_fscores_female1.csv";
+    
+VARIABLE:
+
+    NAMES =         ID wave 
+                    depres effort sleep happy lonely going
+                    wspeed chr5sec balance
+                    grip fev hba
+                    imrc dlrc series memory
+                    hearing nsight dsight
+                    bal_bin;
+                    
+    USEVARIABLE =   depres effort sleep happy lonely going
+                    wspeed chr5sec bal_bin
+                    grip fev hba
+                    imrc dlrc memory
+                    hearing nsight dsight;
+
+    CATEGORICAL =   depres effort sleep happy lonely going
+                    bal_bin memory hearing nsight dsight;
+
+    MISSING = ALL (-9999); 
+
+    CLUSTER = ID;
+
+ANALYSIS:
+
+    TYPE = COMPLEX;
+    ESTIMATOR = WLSMV;
+     
+
+MODEL:
+
+    psych BY        depres* effort sleep happy lonely going;
+
+    locom BY        wspeed* chr5sec bal_bin;
+
+    vital BY        grip* fev hba;
+
+    cogni BY        imrc* dlrc memory;
+
+    sensor BY       hearing* nsight dsight;
+
+    psych@1;
+    locom@1;
+    vital@1;
+    cogni@1;
+    sensor@1;
+
+    [psych@0];
+    [locom@0];
+    [vital@0];
+    [cogni@0];
+    [sensor@0];
+
+    {depres@1};
+    {effort@1};
+    {sleep@1};
+    {happy@1};
+    {lonely@1};
+    {going@1};
+    {bal_bin@1};
+    {memory@1};
+    {hearing@1};
+    {nsight@1};
+    {dsight@1};
+
+    
+OUTPUT:
+
+    TECH1 STANDARDIZED(STDYX);
+
+
+PLOT:
+    
+    TYPE = PLOT3;
+
+SAVEDATA:
+
+    FILE = charls_fscores_female1_cf.csv;
+    SAVE = FSCORES;
