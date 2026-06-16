@@ -1,0 +1,49 @@
+{
+  "success": false,
+  "message": "STOP: TOTAL NO. OF ITERATIONS REACHED LIMIT",
+  "iterations": 10,
+  "objective": 159001.24466123336,
+  "log_likelihood": -159001.24466123336,
+  "n_obs": 9428,
+  "n_params": 91,
+  "quadrature_points": 5,
+  "factors": [
+    "general",
+    "psychological",
+    "locomotor",
+    "vitality",
+    "cognitive",
+    "sensory"
+  ],
+  "continuous_columns": [
+    "wspeed",
+    "chr5sec",
+    "grip",
+    "fev",
+    "hba"
+  ],
+  "ordinal_columns": [
+    "depres",
+    "effort",
+    "sleep",
+    "happy",
+    "lonely",
+    "going",
+    "balance",
+    "imrc",
+    "dlrc",
+    "memory",
+    "hearing",
+    "nsight",
+    "dsight"
+  ],
+  "orientation": {
+    "general": 1.0,
+    "psychological": 1.0,
+    "locomotor": 1.0,
+    "vitality": 1.0,
+    "cognitive": 1.0,
+    "sensory": 1.0
+  },
+  "data": "/root/ic_economics/data/filtered_data/filtered.csv"
+}
