@@ -1,7 +1,9 @@
 from __future__ import annotations
 
+import csv
 from dataclasses import dataclass
 from pathlib import Path
+from time import perf_counter
 from typing import Iterable
 
 import numpy as np
@@ -33,9 +35,9 @@ from bifactor_model.model import (
 
 @dataclass(frozen=True)
 class IndicatorObservations:
-    """One indicator's observed values, sorted by individual index."""
+    """One indicator's observed values, sorted by person-wave unit index."""
 
-    individual_index: np.ndarray
+    unit_index: np.ndarray
     values: np.ndarray
 
 
@@ -45,6 +47,7 @@ class PreparedData:
 
     source_dir: Path
     individual_ids: np.ndarray
+    waves: np.ndarray
     n_individuals: int
     columns: list[str]
     continuous_columns: list[str]
@@ -55,6 +58,73 @@ class PreparedData:
     means: dict[str, float]
     stds: dict[str, float]
     observation_counts: dict[str, int]
+
+
+@dataclass
+class OptimizationLogger:
+    """CSV trace for finite-difference likelihood optimization."""
+
+    path: Path
+    print_every: int = 25
+    evaluations: int = 0
+    iterations: int = 0
+    best_value: float = np.inf
+
+    def __post_init__(self) -> None:
+        self.path.parent.mkdir(parents=True, exist_ok=True)
+        self._started_at = perf_counter()
+        with self.path.open("w", newline="") as handle:
+            writer = csv.writer(handle)
+            writer.writerow(
+                [
+                    "event",
+                    "elapsed_seconds",
+                    "evaluation",
+                    "iteration",
+                    "log_likelihood",
+                    "negative_log_likelihood",
+                    "best_log_likelihood",
+                ]
+            )
+
+    def log_evaluation(self, value: float) -> None:
+        self.evaluations += 1
+        if np.isfinite(value):
+            self.best_value = min(self.best_value, value)
+        self._write("evaluation", value)
+        if self.print_every and self.evaluations % self.print_every == 0:
+            print(
+                "likelihood "
+                f"eval={self.evaluations} iter={self.iterations} "
+                f"ll={-value:.3f} best_ll={-self.best_value:.3f}",
+                flush=True,
+            )
+
+    def log_iteration(self, params: np.ndarray, value: float) -> None:
+        del params
+        self.iterations += 1
+        self._write("iteration", value)
+        print(
+            "iteration "
+            f"{self.iterations}: eval={self.evaluations} "
+            f"ll={-value:.3f} best_ll={-self.best_value:.3f}",
+            flush=True,
+        )
+
+    def _write(self, event: str, value: float) -> None:
+        with self.path.open("a", newline="") as handle:
+            writer = csv.writer(handle)
+            writer.writerow(
+                [
+                    event,
+                    f"{perf_counter() - self._started_at:.6f}",
+                    self.evaluations,
+                    self.iterations,
+                    f"{-value:.12g}",
+                    f"{value:.12g}",
+                    f"{-self.best_value:.12g}",
+                ]
+            )
 
 
 def _normalise_id(value: object) -> str | None:
@@ -75,20 +145,26 @@ def _id_sort_key(value: str) -> tuple[int, float | str]:
         return (1, value)
 
 
+def _unit_sort_key(unit: tuple[str, str]) -> tuple[tuple[int, float | str], tuple[int, float | str]]:
+    idauniq, wave = unit
+    return (_id_sort_key(idauniq), _id_sort_key(wave))
+
+
 def _read_indicator_file(data_dir: Path, column: str) -> pd.DataFrame:
     path = data_dir / f"{column}.csv"
     if not path.exists():
         raise FileNotFoundError(f"Missing indicator file: {path}")
 
-    df = pd.read_csv(path, dtype={"idauniq": "string"})
-    missing = [name for name in ("idauniq", column) if name not in df.columns]
+    df = pd.read_csv(path, dtype={"idauniq": "string", "wave": "string"})
+    missing = [name for name in ("idauniq", "wave", column) if name not in df.columns]
     if missing:
         raise ValueError(f"{path} is missing columns: {', '.join(missing)}")
 
-    out = df.loc[:, ["idauniq", column]].copy()
+    out = df.loc[:, ["idauniq", "wave", column]].copy()
     out["idauniq"] = out["idauniq"].map(_normalise_id)
+    out["wave"] = out["wave"].map(_normalise_id)
     out[column] = pd.to_numeric(out[column], errors="coerce")
-    out = out.dropna(subset=["idauniq", column])
+    out = out.dropna(subset=["idauniq", "wave", column])
     if out.empty:
         raise ValueError(f"{path} has no usable non-missing observations.")
     return out
@@ -96,35 +172,39 @@ def _read_indicator_file(data_dir: Path, column: str) -> pd.DataFrame:
 
 def _sorted_observations(
     frame: pd.DataFrame,
-    id_to_index: dict[str, int],
+    unit_to_index: dict[tuple[str, str], int],
     values: np.ndarray,
 ) -> IndicatorObservations:
-    individual_index = frame["idauniq"].map(id_to_index).to_numpy(dtype=int)
-    order = np.argsort(individual_index, kind="stable")
+    units = zip(frame["idauniq"].to_numpy(dtype=object), frame["wave"].to_numpy(dtype=object))
+    unit_index = np.array([unit_to_index[(idauniq, wave)] for idauniq, wave in units], dtype=int)
+    order = np.argsort(unit_index, kind="stable")
     return IndicatorObservations(
-        individual_index=individual_index[order].astype(int, copy=False),
+        unit_index=unit_index[order].astype(int, copy=False),
         values=values[order],
     )
 
 
 def prepare_data(data_dir: str | Path) -> PreparedData:
-    """Load the 18 per-indicator CSV files and align rows by idauniq."""
+    """Load the 18 per-indicator CSV files and align rows by idauniq-wave."""
 
     source_dir = Path(data_dir)
     frames = {column: _read_indicator_file(source_dir, column) for column in INDICATORS}
 
-    all_ids = sorted(
+    all_units = sorted(
         {
-            individual_id
+            (individual_id, wave)
             for frame in frames.values()
-            for individual_id in frame["idauniq"].to_numpy(dtype=object)
+            for individual_id, wave in zip(
+                frame["idauniq"].to_numpy(dtype=object),
+                frame["wave"].to_numpy(dtype=object),
+            )
         },
-        key=_id_sort_key,
+        key=_unit_sort_key,
     )
-    if not all_ids:
-        raise ValueError("No individuals found in the indicator files.")
+    if not all_units:
+        raise ValueError("No person-wave units found in the indicator files.")
 
-    id_to_index = {individual_id: index for index, individual_id in enumerate(all_ids)}
+    unit_to_index = {unit: index for index, unit in enumerate(all_units)}
     continuous: dict[str, IndicatorObservations] = {}
     ordinal_codes: dict[str, IndicatorObservations] = {}
     ordinal_categories: dict[str, list[float]] = {}
@@ -146,7 +226,7 @@ def prepare_data(data_dir: str | Path) -> PreparedData:
             stds[column] = std
             continuous[column] = _sorted_observations(
                 frame=frame,
-                id_to_index=id_to_index,
+                unit_to_index=unit_to_index,
                 values=((raw_values - mean) / std).astype(float, copy=False),
             )
         else:
@@ -157,15 +237,16 @@ def prepare_data(data_dir: str | Path) -> PreparedData:
             codes = np.array([category_to_code[float(value)] for value in raw_values], dtype=int)
             ordinal_codes[column] = _sorted_observations(
                 frame=frame,
-                id_to_index=id_to_index,
+                unit_to_index=unit_to_index,
                 values=codes,
             )
             ordinal_categories[column] = categories
 
     return PreparedData(
         source_dir=source_dir,
-        individual_ids=np.array(all_ids, dtype=object),
-        n_individuals=len(all_ids),
+        individual_ids=np.array([unit[0] for unit in all_units], dtype=object),
+        waves=np.array([unit[1] for unit in all_units], dtype=object),
+        n_individuals=len(all_units),
         columns=list(INDICATORS),
         continuous_columns=list(CONTINUOUS_COLUMNS),
         ordinal_columns=[column for column in INDICATORS if column not in CONTINUOUS_COLUMNS],
@@ -179,22 +260,22 @@ def prepare_data(data_dir: str | Path) -> PreparedData:
 
 
 def subset_individuals(data: PreparedData, keep_indices: np.ndarray) -> PreparedData:
-    """Return a PreparedData view containing only the selected individuals."""
+    """Return a PreparedData view containing only the selected person-wave units."""
 
     keep_indices = np.sort(np.asarray(keep_indices, dtype=int))
     if len(keep_indices) == 0:
-        raise ValueError("Cannot fit a model with zero sampled individuals.")
+        raise ValueError("Cannot fit a model with zero sampled person-wave units.")
     if keep_indices[0] < 0 or keep_indices[-1] >= data.n_individuals:
-        raise IndexError("Sampled individual index is outside the data range.")
+        raise IndexError("Sampled person-wave index is outside the data range.")
 
     remap = np.full(data.n_individuals, -1, dtype=int)
     remap[keep_indices] = np.arange(len(keep_indices))
 
     def subset_observations(observations: IndicatorObservations) -> IndicatorObservations:
-        mapped = remap[observations.individual_index]
+        mapped = remap[observations.unit_index]
         mask = mapped >= 0
         return IndicatorObservations(
-            individual_index=mapped[mask].astype(int, copy=False),
+            unit_index=mapped[mask].astype(int, copy=False),
             values=observations.values[mask],
         )
 
@@ -214,6 +295,7 @@ def subset_individuals(data: PreparedData, keep_indices: np.ndarray) -> Prepared
     return PreparedData(
         source_dir=data.source_dir,
         individual_ids=data.individual_ids[keep_indices],
+        waves=data.waves[keep_indices],
         n_individuals=len(keep_indices),
         columns=list(data.columns),
         continuous_columns=list(data.continuous_columns),
@@ -265,9 +347,9 @@ def _observation_slice(
         raise ValueError("Observation slices must have explicit start and stop.")
     start = rows.start
     stop = rows.stop
-    left = np.searchsorted(observations.individual_index, start, side="left")
-    right = np.searchsorted(observations.individual_index, stop, side="left")
-    return observations.individual_index[left:right] - start, observations.values[left:right]
+    left = np.searchsorted(observations.unit_index, start, side="left")
+    right = np.searchsorted(observations.unit_index, stop, side="left")
+    return observations.unit_index[left:right] - start, observations.values[left:right]
 
 
 def _domain_log_grid(
@@ -356,10 +438,13 @@ def negative_log_likelihood(
     layout: ParameterLayout,
     quadrature_points: int,
     block_size: int,
+    logger: OptimizationLogger | None = None,
 ) -> float:
     value = -log_likelihood(params, data, layout, quadrature_points, block_size)
     if not np.isfinite(value):
-        return 1e100
+        value = 1e100
+    if logger is not None:
+        logger.log_evaluation(value)
     return value
 
 
@@ -368,20 +453,42 @@ def fit_bifactor(
     quadrature_points: int = 5,
     maxiter: int = 5,
     block_size: int = 2048,
+    likelihood_log_path: Path | None = None,
+    log_every: int = 25,
 ) -> tuple[FitResult, ParameterLayout]:
     layout = make_layout(data)
     start = initial_params(data, layout)
+    logger = (
+        OptimizationLogger(path=likelihood_log_path, print_every=log_every)
+        if likelihood_log_path is not None
+        else None
+    )
     objective = lambda vector: negative_log_likelihood(
         vector,
         data=data,
         layout=layout,
         quadrature_points=quadrature_points,
         block_size=block_size,
+        logger=logger,
     )
+
+    def callback(vector: np.ndarray) -> None:
+        if logger is None:
+            return
+        value = negative_log_likelihood(
+            vector,
+            data=data,
+            layout=layout,
+            quadrature_points=quadrature_points,
+            block_size=block_size,
+        )
+        logger.log_iteration(vector, value)
+
     result = minimize(
         objective,
         start,
         method="L-BFGS-B",
+        callback=callback,
         options={
             "maxiter": maxiter,
             "disp": False,
@@ -448,6 +555,7 @@ def factor_scores(
 
         score_block = {
             "idauniq": data.individual_ids[start:stop],
+            "wave": data.waves[start:stop],
             "general": outer_weights @ nodes,
         }
         for domain in DOMAINS:
@@ -479,7 +587,9 @@ def fit_summary(result: FitResult, data: PreparedData, layout: ParameterLayout) 
         "iterations": result.n_iter,
         "objective": result.objective,
         "log_likelihood": result.log_likelihood,
-        "n_individuals": result.n_obs,
+        "n_person_waves": result.n_obs,
+        "n_unique_idauniq": int(len(pd.unique(data.individual_ids))),
+        "waves": sorted(str(wave) for wave in pd.unique(data.waves)),
         "n_observations": int(sum(data.observation_counts.values())),
         "observation_counts": data.observation_counts,
         "n_params": layout.n_params,

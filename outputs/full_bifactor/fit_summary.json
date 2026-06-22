@@ -2,9 +2,21 @@
   "success": false,
   "message": "STOP: TOTAL NO. OF ITERATIONS REACHED LIMIT",
   "iterations": 5,
-  "objective": 778781.4527434453,
-  "log_likelihood": -778781.4527434453,
-  "n_individuals": 14710,
+  "objective": 810738.6500062849,
+  "log_likelihood": -810738.6500062849,
+  "n_person_waves": 63077,
+  "n_unique_idauniq": 14710,
+  "waves": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5",
+    "6",
+    "7",
+    "8",
+    "9"
+  ],
   "n_observations": 860936,
   "observation_counts": {
     "depres": 59837,
@@ -67,7 +79,8 @@
     "sensory": 1.0
   },
   "data_dir": "/root/ic_economics/data/individual_data",
-  "full_n_individuals": 14710,
+  "full_n_person_waves": 63077,
   "full_n_observations": 860936,
-  "sample_size": null
+  "sample_size": null,
+  "likelihood_trace": "/root/ic_economics/outputs/full_bifactor_hba/run_20260621_231450/likelihood_trace.csv"
 }

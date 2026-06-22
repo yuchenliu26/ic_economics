@@ -1,5 +1,6 @@
 import csv
 import re
+from decimal import Decimal, InvalidOperation
 from pathlib import Path
 
 
@@ -25,7 +26,7 @@ INDICATORS = [
 ]
 
 DATA_DIR = Path(__file__).resolve().parent
-RAW_DATA_FILE = DATA_DIR.parent / "raw_data" / "elsa_ic_indicators_long.csv"
+RAW_DATA_FILE = DATA_DIR.parent / "raw_data" / "elsa_ic_indicators_long_v4.csv"
 
 
 def numeric_prefix(value):
@@ -47,6 +48,25 @@ def numeric_prefix(value):
     return match.group(0)
 
 
+def format_decimal(value):
+    return format(value.normalize(), "f")
+
+
+def clean_response(indicator, response):
+    if indicator != "hba":
+        return response
+
+    try:
+        value = Decimal(response)
+    except InvalidOperation:
+        return response
+
+    if value > Decimal("100"):
+        value /= Decimal("10")
+
+    return format_decimal(value)
+
+
 def write_individual_indicator_files(source_file=RAW_DATA_FILE, output_dir=DATA_DIR):
     counts = {indicator: 0 for indicator in INDICATORS}
     handles = {}
@@ -56,13 +76,13 @@ def write_individual_indicator_files(source_file=RAW_DATA_FILE, output_dir=DATA_
         for indicator in INDICATORS:
             handle = (output_dir / f"{indicator}.csv").open("w", newline="")
             writer = csv.writer(handle)
-            writer.writerow(["idauniq", indicator])
+            writer.writerow(["idauniq", "wave", indicator])
             handles[indicator] = handle
             writers[indicator] = writer
 
         with source_file.open(newline="") as source:
             reader = csv.DictReader(source)
-            expected_columns = ["idauniq", *INDICATORS]
+            expected_columns = ["idauniq", "wave", *INDICATORS]
             missing_columns = [
                 column for column in expected_columns
                 if column not in (reader.fieldnames or [])
@@ -74,7 +94,8 @@ def write_individual_indicator_files(source_file=RAW_DATA_FILE, output_dir=DATA_
 
             for row in reader:
                 idauniq = numeric_prefix(row.get("idauniq"))
-                if idauniq is None:
+                wave = numeric_prefix(row.get("wave"))
+                if idauniq is None or wave is None:
                     continue
 
                 for indicator in INDICATORS:
@@ -82,7 +103,8 @@ def write_individual_indicator_files(source_file=RAW_DATA_FILE, output_dir=DATA_
                     if response is None:
                         continue
 
-                    writers[indicator].writerow([idauniq, response])
+                    response = clean_response(indicator, response)
+                    writers[indicator].writerow([idauniq, wave, response])
                     counts[indicator] += 1
     finally:
         for handle in handles.values():

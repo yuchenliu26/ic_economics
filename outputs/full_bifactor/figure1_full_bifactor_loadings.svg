@@ -20,119 +20,119 @@ text{font-family:Arial,Helvetica,sans-serif;fill:#202124}
 <rect x="32" y="70" width="1096" height="34" fill="#f8f9fa" />
 <text class="row" x="44" y="93">depres</text>
 <text class="small" x="210" y="93">psychological</text>
-<rect x="610.0" y="81" width="115.5" height="14" rx="2" fill="#4575b4" opacity="0.82" />
-<rect x="910.0" y="81" width="101.8" height="14" rx="2" fill="#111827" opacity="0.82" />
-<text class="value" x="784" y="92">+0.518</text>
-<text class="value" x="1084" y="92">+0.456</text>
+<rect x="610.0" y="81" width="147.3" height="14" rx="2" fill="#4575b4" opacity="0.82" />
+<rect x="910.0" y="81" width="92.9" height="14" rx="2" fill="#111827" opacity="0.82" />
+<text class="value" x="784" y="92">+0.708</text>
+<text class="value" x="1084" y="92">+0.447</text>
 <text class="row" x="44" y="127">effort</text>
 <text class="small" x="210" y="127">psychological</text>
-<rect x="610.0" y="115" width="100.4" height="14" rx="2" fill="#4575b4" opacity="0.82" />
-<rect x="910.0" y="115" width="128.7" height="14" rx="2" fill="#111827" opacity="0.82" />
-<text class="value" x="784" y="126">+0.450</text>
-<text class="value" x="1084" y="126">+0.577</text>
+<rect x="610.0" y="115" width="120.6" height="14" rx="2" fill="#4575b4" opacity="0.82" />
+<rect x="910.0" y="115" width="136.9" height="14" rx="2" fill="#111827" opacity="0.82" />
+<text class="value" x="784" y="126">+0.580</text>
+<text class="value" x="1084" y="126">+0.658</text>
 <rect x="32" y="138" width="1096" height="34" fill="#f8f9fa" />
 <text class="row" x="44" y="161">sleep</text>
 <text class="small" x="210" y="161">psychological</text>
-<rect x="610.0" y="149" width="119.5" height="14" rx="2" fill="#4575b4" opacity="0.82" />
-<rect x="910.0" y="149" width="46.0" height="14" rx="2" fill="#111827" opacity="0.82" />
-<text class="value" x="784" y="160">+0.536</text>
-<text class="value" x="1084" y="160">+0.206</text>
+<rect x="610.0" y="149" width="122.5" height="14" rx="2" fill="#4575b4" opacity="0.82" />
+<rect x="910.0" y="149" width="30.4" height="14" rx="2" fill="#111827" opacity="0.82" />
+<text class="value" x="784" y="160">+0.589</text>
+<text class="value" x="1084" y="160">+0.146</text>
 <text class="row" x="44" y="195">happy</text>
 <text class="small" x="210" y="195">psychological</text>
-<rect x="610.0" y="183" width="107.6" height="14" rx="2" fill="#4575b4" opacity="0.82" />
-<rect x="910.0" y="183" width="68.3" height="14" rx="2" fill="#111827" opacity="0.82" />
-<text class="value" x="784" y="194">+0.482</text>
-<text class="value" x="1084" y="194">+0.306</text>
+<rect x="610.0" y="183" width="145.1" height="14" rx="2" fill="#4575b4" opacity="0.82" />
+<rect x="910.0" y="183" width="49.8" height="14" rx="2" fill="#111827" opacity="0.82" />
+<text class="value" x="784" y="194">+0.698</text>
+<text class="value" x="1084" y="194">+0.240</text>
 <rect x="32" y="206" width="1096" height="34" fill="#f8f9fa" />
 <text class="row" x="44" y="229">lonely</text>
 <text class="small" x="210" y="229">psychological</text>
-<rect x="610.0" y="217" width="96.4" height="14" rx="2" fill="#4575b4" opacity="0.82" />
-<rect x="910.0" y="217" width="101.8" height="14" rx="2" fill="#111827" opacity="0.82" />
-<text class="value" x="784" y="228">+0.432</text>
-<text class="value" x="1084" y="228">+0.456</text>
+<rect x="610.0" y="217" width="114.0" height="14" rx="2" fill="#4575b4" opacity="0.82" />
+<rect x="910.0" y="217" width="92.5" height="14" rx="2" fill="#111827" opacity="0.82" />
+<text class="value" x="784" y="228">+0.548</text>
+<text class="value" x="1084" y="228">+0.445</text>
 <text class="row" x="44" y="263">going</text>
 <text class="small" x="210" y="263">psychological</text>
-<rect x="610.0" y="251" width="98.2" height="14" rx="2" fill="#4575b4" opacity="0.82" />
-<rect x="910.0" y="251" width="113.4" height="14" rx="2" fill="#111827" opacity="0.82" />
-<text class="value" x="784" y="262">+0.440</text>
-<text class="value" x="1084" y="262">+0.508</text>
+<rect x="610.0" y="251" width="124.9" height="14" rx="2" fill="#4575b4" opacity="0.82" />
+<rect x="910.0" y="251" width="121.4" height="14" rx="2" fill="#111827" opacity="0.82" />
+<text class="value" x="784" y="262">+0.601</text>
+<text class="value" x="1084" y="262">+0.584</text>
 <rect x="32" y="274" width="1096" height="34" fill="#f8f9fa" />
 <text class="row" x="44" y="297">wspeed</text>
 <text class="small" x="210" y="297">locomotor</text>
-<rect x="610.0" y="285" width="123.1" height="14" rx="2" fill="#1b9e77" opacity="0.82" />
-<rect x="910.0" y="285" width="121.0" height="14" rx="2" fill="#111827" opacity="0.82" />
-<text class="value" x="784" y="296">+0.552</text>
-<text class="value" x="1084" y="296">+0.542</text>
+<rect x="610.0" y="285" width="85.5" height="14" rx="2" fill="#1b9e77" opacity="0.82" />
+<rect x="910.0" y="285" width="141.9" height="14" rx="2" fill="#111827" opacity="0.82" />
+<text class="value" x="784" y="296">+0.411</text>
+<text class="value" x="1084" y="296">+0.682</text>
 <text class="row" x="44" y="331">chr5sec</text>
 <text class="small" x="210" y="331">locomotor</text>
-<rect x="610.0" y="319" width="78.6" height="14" rx="2" fill="#1b9e77" opacity="0.82" />
-<rect x="910.0" y="319" width="112.5" height="14" rx="2" fill="#111827" opacity="0.82" />
-<text class="value" x="784" y="330">+0.352</text>
-<text class="value" x="1084" y="330">+0.504</text>
+<rect x="610.0" y="319" width="82.2" height="14" rx="2" fill="#1b9e77" opacity="0.82" />
+<rect x="910.0" y="319" width="116.0" height="14" rx="2" fill="#111827" opacity="0.82" />
+<text class="value" x="784" y="330">+0.395</text>
+<text class="value" x="1084" y="330">+0.558</text>
 <rect x="32" y="342" width="1096" height="34" fill="#f8f9fa" />
 <text class="row" x="44" y="365">balance</text>
 <text class="small" x="210" y="365">locomotor</text>
-<rect x="610.0" y="353" width="55.8" height="14" rx="2" fill="#1b9e77" opacity="0.82" />
-<rect x="910.0" y="353" width="105.7" height="14" rx="2" fill="#111827" opacity="0.82" />
-<text class="value" x="784" y="364">+0.250</text>
-<text class="value" x="1084" y="364">+0.474</text>
+<rect x="610.0" y="353" width="43.7" height="14" rx="2" fill="#1b9e77" opacity="0.82" />
+<rect x="910.0" y="353" width="112.3" height="14" rx="2" fill="#111827" opacity="0.82" />
+<text class="value" x="784" y="364">+0.210</text>
+<text class="value" x="1084" y="364">+0.540</text>
 <text class="row" x="44" y="399">grip</text>
 <text class="small" x="210" y="399">vitality</text>
-<rect x="610.0" y="387" width="160.0" height="14" rx="2" fill="#d95f02" opacity="0.82" />
-<rect x="910.0" y="387" width="106.8" height="14" rx="2" fill="#111827" opacity="0.82" />
-<text class="value" x="784" y="398">+0.717</text>
-<text class="value" x="1084" y="398">+0.479</text>
+<rect x="610.0" y="387" width="141.9" height="14" rx="2" fill="#d95f02" opacity="0.82" />
+<rect x="910.0" y="387" width="92.5" height="14" rx="2" fill="#111827" opacity="0.82" />
+<text class="value" x="784" y="398">+0.682</text>
+<text class="value" x="1084" y="398">+0.445</text>
 <rect x="32" y="410" width="1096" height="34" fill="#f8f9fa" />
 <text class="row" x="44" y="433">fev</text>
 <text class="small" x="210" y="433">vitality</text>
-<rect x="610.0" y="421" width="113.1" height="14" rx="2" fill="#d95f02" opacity="0.82" />
-<rect x="910.0" y="421" width="108.1" height="14" rx="2" fill="#111827" opacity="0.82" />
-<text class="value" x="784" y="432">+0.507</text>
-<text class="value" x="1084" y="432">+0.485</text>
+<rect x="610.0" y="421" width="138.3" height="14" rx="2" fill="#d95f02" opacity="0.82" />
+<rect x="910.0" y="421" width="95.9" height="14" rx="2" fill="#111827" opacity="0.82" />
+<text class="value" x="784" y="432">+0.665</text>
+<text class="value" x="1084" y="432">+0.461</text>
 <text class="row" x="44" y="467">hba</text>
 <text class="small" x="210" y="467">vitality</text>
-<rect x="610.0" y="455" width="1.3" height="14" rx="2" fill="#d95f02" opacity="0.82" />
-<rect x="910.0" y="455" width="30.8" height="14" rx="2" fill="#111827" opacity="0.82" />
-<text class="value" x="784" y="466">+0.006</text>
-<text class="value" x="1084" y="466">+0.138</text>
+<rect x="610.0" y="455" width="3.9" height="14" rx="2" fill="#d95f02" opacity="0.82" />
+<rect x="855.5" y="455" width="54.5" height="14" rx="2" fill="#111827" opacity="0.82" />
+<text class="value" x="784" y="466">+0.019</text>
+<text class="value" x="1084" y="466">-0.262</text>
 <rect x="32" y="478" width="1096" height="34" fill="#f8f9fa" />
 <text class="row" x="44" y="501">imrc</text>
 <text class="small" x="210" y="501">cognitive</text>
-<rect x="610.0" y="489" width="128.4" height="14" rx="2" fill="#756bb1" opacity="0.82" />
-<rect x="910.0" y="489" width="84.1" height="14" rx="2" fill="#111827" opacity="0.82" />
-<text class="value" x="784" y="500">+0.575</text>
-<text class="value" x="1084" y="500">+0.377</text>
+<rect x="610.0" y="489" width="145.5" height="14" rx="2" fill="#756bb1" opacity="0.82" />
+<rect x="910.0" y="489" width="78.7" height="14" rx="2" fill="#111827" opacity="0.82" />
+<text class="value" x="784" y="500">+0.699</text>
+<text class="value" x="1084" y="500">+0.379</text>
 <text class="row" x="44" y="535">dlrc</text>
 <text class="small" x="210" y="535">cognitive</text>
-<rect x="610.0" y="523" width="134.9" height="14" rx="2" fill="#756bb1" opacity="0.82" />
-<rect x="910.0" y="523" width="83.6" height="14" rx="2" fill="#111827" opacity="0.82" />
-<text class="value" x="784" y="534">+0.605</text>
-<text class="value" x="1084" y="534">+0.375</text>
+<rect x="610.0" y="523" width="147.5" height="14" rx="2" fill="#756bb1" opacity="0.82" />
+<rect x="910.0" y="523" width="77.5" height="14" rx="2" fill="#111827" opacity="0.82" />
+<text class="value" x="784" y="534">+0.709</text>
+<text class="value" x="1084" y="534">+0.372</text>
 <rect x="32" y="546" width="1096" height="34" fill="#f8f9fa" />
 <text class="row" x="44" y="569">memory</text>
 <text class="small" x="210" y="569">cognitive</text>
-<rect x="610.0" y="557" width="69.0" height="14" rx="2" fill="#756bb1" opacity="0.82" />
-<rect x="910.0" y="557" width="51.7" height="14" rx="2" fill="#111827" opacity="0.82" />
-<text class="value" x="784" y="568">+0.309</text>
-<text class="value" x="1084" y="568">+0.232</text>
+<rect x="610.0" y="557" width="79.4" height="14" rx="2" fill="#756bb1" opacity="0.82" />
+<rect x="910.0" y="557" width="35.7" height="14" rx="2" fill="#111827" opacity="0.82" />
+<text class="value" x="784" y="568">+0.382</text>
+<text class="value" x="1084" y="568">+0.172</text>
 <text class="row" x="44" y="603">hearing</text>
 <text class="small" x="210" y="603">sensory</text>
-<rect x="610.0" y="591" width="147.4" height="14" rx="2" fill="#6b6b6b" opacity="0.82" />
-<rect x="910.0" y="591" width="7.4" height="14" rx="2" fill="#111827" opacity="0.82" />
-<text class="value" x="784" y="602">+0.661</text>
-<text class="value" x="1084" y="602">+0.033</text>
+<rect x="610.0" y="591" width="74.2" height="14" rx="2" fill="#6b6b6b" opacity="0.82" />
+<rect x="910.0" y="591" width="57.5" height="14" rx="2" fill="#111827" opacity="0.82" />
+<text class="value" x="784" y="602">+0.357</text>
+<text class="value" x="1084" y="602">+0.276</text>
 <rect x="32" y="614" width="1096" height="34" fill="#f8f9fa" />
 <text class="row" x="44" y="637">nsight</text>
 <text class="small" x="210" y="637">sensory</text>
-<rect x="610.0" y="625" width="83.3" height="14" rx="2" fill="#6b6b6b" opacity="0.82" />
-<rect x="910.0" y="625" width="106.1" height="14" rx="2" fill="#111827" opacity="0.82" />
-<text class="value" x="784" y="636">+0.373</text>
-<text class="value" x="1084" y="636">+0.476</text>
+<rect x="610.0" y="625" width="159.8" height="14" rx="2" fill="#6b6b6b" opacity="0.82" />
+<rect x="910.0" y="625" width="62.8" height="14" rx="2" fill="#111827" opacity="0.82" />
+<text class="value" x="784" y="636">+0.768</text>
+<text class="value" x="1084" y="636">+0.302</text>
 <text class="row" x="44" y="671">dsight</text>
 <text class="small" x="210" y="671">sensory</text>
-<rect x="610.0" y="659" width="82.3" height="14" rx="2" fill="#6b6b6b" opacity="0.82" />
-<rect x="910.0" y="659" width="107.5" height="14" rx="2" fill="#111827" opacity="0.82" />
-<text class="value" x="784" y="670">+0.369</text>
-<text class="value" x="1084" y="670">+0.482</text>
+<rect x="610.0" y="659" width="160.0" height="14" rx="2" fill="#6b6b6b" opacity="0.82" />
+<rect x="910.0" y="659" width="63.0" height="14" rx="2" fill="#111827" opacity="0.82" />
+<text class="value" x="784" y="670">+0.769</text>
+<text class="value" x="1084" y="670">+0.303</text>
 <text class="small" x="44" y="726">Continuous: wspeed, chr5sec, grip, fev, hba. Ordinal probit: depres, effort, sleep, happy, lonely, going, balance, imrc, dlrc, memory, hearing, nsight, dsight.</text>
 </svg>

@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import argparse
 import json
+from datetime import datetime
 from html import escape
 from pathlib import Path
 
@@ -56,8 +57,14 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--output-dir",
         type=Path,
-        default=repo_root / "outputs" / "full_bifactor",
-        help="Directory for model outputs.",
+        default=None,
+        help="Directory for model outputs. If omitted, a fresh run directory is created.",
+    )
+    parser.add_argument(
+        "--output-root",
+        type=Path,
+        default=repo_root / "outputs" / "full_bifactor_hba",
+        help="Parent directory used when --output-dir is omitted.",
     )
     parser.add_argument(
         "--quadrature-points",
@@ -94,30 +101,54 @@ def parse_args() -> argparse.Namespace:
         action="store_true",
         help="Skip posterior mean factor score export.",
     )
+    parser.add_argument(
+        "--log-every",
+        type=int,
+        default=25,
+        help="Print every N objective evaluations while also writing likelihood_trace.csv.",
+    )
     return parser.parse_args()
 
 
+def fresh_output_dir(args: argparse.Namespace) -> Path:
+    if args.output_dir is not None:
+        return args.output_dir
+
+    stamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    candidate = args.output_root / f"run_{stamp}"
+    suffix = 1
+    while candidate.exists():
+        candidate = args.output_root / f"run_{stamp}_{suffix:02d}"
+        suffix += 1
+    return candidate
+
+
 def write_outputs(args: argparse.Namespace) -> None:
-    args.output_dir.mkdir(parents=True, exist_ok=True)
+    args.output_dir = fresh_output_dir(args)
+    args.output_dir.mkdir(parents=True, exist_ok=False)
 
     data = prepare_data(args.data_dir)
-    full_n_individuals = data.n_individuals
+    full_n_person_waves = data.n_individuals
     full_n_observations = sum(data.observation_counts.values())
     if args.sample_size is not None:
         data = sample_individuals(data, args.sample_size, args.seed)
 
+    likelihood_log_path = args.output_dir / "likelihood_trace.csv"
     result, layout = fit_bifactor(
         data=data,
         quadrature_points=args.quadrature_points,
         maxiter=args.maxiter,
         block_size=args.block_size,
+        likelihood_log_path=likelihood_log_path,
+        log_every=args.log_every,
     )
 
     summary = fit_summary(result, data, layout)
     summary["data_dir"] = str(args.data_dir)
-    summary["full_n_individuals"] = full_n_individuals
+    summary["full_n_person_waves"] = full_n_person_waves
     summary["full_n_observations"] = int(full_n_observations)
     summary["sample_size"] = args.sample_size
+    summary["likelihood_trace"] = str(likelihood_log_path)
     summary_path = args.output_dir / "fit_summary.json"
     summary_path.write_text(json.dumps(summary, indent=2) + "\n")
 
@@ -160,6 +191,7 @@ def write_outputs(args: argparse.Namespace) -> None:
     print(f"Wrote {summary_path}")
     print(f"Wrote {loadings_path}")
     print(f"Wrote {weights_path}")
+    print(f"Wrote {likelihood_log_path}")
     print(f"Optimizer success: {result.success} ({result.message})")
     print(f"Log likelihood: {result.log_likelihood:.3f}")
 

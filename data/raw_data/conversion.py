@@ -5,7 +5,7 @@ import tempfile
 
 
 DATA_DIR = Path(__file__).resolve().parent
-INPUT_FILE = DATA_DIR / "elsa_ic_indicators_long.dta"
+INPUT_FILE = DATA_DIR / "elsa_ic_indicators_long_v4.dta"
 OUTPUT_FILE = INPUT_FILE.with_suffix(".csv")
 STATA_APP = Path("/Applications/Stata/StataSE.app/Contents/MacOS/stata-se")
 
