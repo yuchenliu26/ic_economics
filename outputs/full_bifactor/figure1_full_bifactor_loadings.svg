@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1160" height="744" viewBox="0 0 1160 744">
+<style>
+text{font-family:Arial,Helvetica,sans-serif;fill:#202124}
+.title{font-size:22px;font-weight:700}
+.subtitle{font-size:13px;fill:#5f6368}
+.header{font-size:12px;font-weight:700;letter-spacing:.04em;fill:#3c4043}
+.row{font-size:13px}
+.small{font-size:11px;fill:#5f6368}
+.value{font-size:11px;fill:#202124}
+</style>
+<text class="title" x="44" y="34">Full-information bifactor loadings for intrinsic capacity</text>
+<text class="subtitle" x="44" y="56">Standardized loadings from per-individual repeated indicator files</text>
+<text class="header" x="44" y="78">INDICATOR</text>
+<text class="header" x="210" y="78">DOMAIN</text>
+<text class="header" x="505" y="78">DOMAIN-SPECIFIC FACTOR</text>
+<text class="header" x="840" y="78">GENERAL IC FACTOR</text>
+<line x1="610" y1="70" x2="610" y2="710" stroke="#d5d8dc" />
+<line x1="910" y1="70" x2="910" y2="710" stroke="#d5d8dc" />
+<rect x="32" y="70" width="1096" height="34" fill="#f8f9fa" />
+<text class="row" x="44" y="93">depres</text>
+<text class="small" x="210" y="93">psychological</text>
+<rect x="610.0" y="81" width="115.5" height="14" rx="2" fill="#4575b4" opacity="0.82" />
+<rect x="910.0" y="81" width="101.8" height="14" rx="2" fill="#111827" opacity="0.82" />
+<text class="value" x="784" y="92">+0.518</text>
+<text class="value" x="1084" y="92">+0.456</text>
+<text class="row" x="44" y="127">effort</text>
+<text class="small" x="210" y="127">psychological</text>
+<rect x="610.0" y="115" width="100.4" height="14" rx="2" fill="#4575b4" opacity="0.82" />
+<rect x="910.0" y="115" width="128.7" height="14" rx="2" fill="#111827" opacity="0.82" />
+<text class="value" x="784" y="126">+0.450</text>
+<text class="value" x="1084" y="126">+0.577</text>
+<rect x="32" y="138" width="1096" height="34" fill="#f8f9fa" />
+<text class="row" x="44" y="161">sleep</text>
+<text class="small" x="210" y="161">psychological</text>
+<rect x="610.0" y="149" width="119.5" height="14" rx="2" fill="#4575b4" opacity="0.82" />
+<rect x="910.0" y="149" width="46.0" height="14" rx="2" fill="#111827" opacity="0.82" />
+<text class="value" x="784" y="160">+0.536</text>
+<text class="value" x="1084" y="160">+0.206</text>
+<text class="row" x="44" y="195">happy</text>
+<text class="small" x="210" y="195">psychological</text>
+<rect x="610.0" y="183" width="107.6" height="14" rx="2" fill="#4575b4" opacity="0.82" />
+<rect x="910.0" y="183" width="68.3" height="14" rx="2" fill="#111827" opacity="0.82" />
+<text class="value" x="784" y="194">+0.482</text>
+<text class="value" x="1084" y="194">+0.306</text>
+<rect x="32" y="206" width="1096" height="34" fill="#f8f9fa" />
+<text class="row" x="44" y="229">lonely</text>
+<text class="small" x="210" y="229">psychological</text>
+<rect x="610.0" y="217" width="96.4" height="14" rx="2" fill="#4575b4" opacity="0.82" />
+<rect x="910.0" y="217" width="101.8" height="14" rx="2" fill="#111827" opacity="0.82" />
+<text class="value" x="784" y="228">+0.432</text>
+<text class="value" x="1084" y="228">+0.456</text>
+<text class="row" x="44" y="263">going</text>
+<text class="small" x="210" y="263">psychological</text>
+<rect x="610.0" y="251" width="98.2" height="14" rx="2" fill="#4575b4" opacity="0.82" />
+<rect x="910.0" y="251" width="113.4" height="14" rx="2" fill="#111827" opacity="0.82" />
+<text class="value" x="784" y="262">+0.440</text>
+<text class="value" x="1084" y="262">+0.508</text>
+<rect x="32" y="274" width="1096" height="34" fill="#f8f9fa" />
+<text class="row" x="44" y="297">wspeed</text>
+<text class="small" x="210" y="297">locomotor</text>
+<rect x="610.0" y="285" width="123.1" height="14" rx="2" fill="#1b9e77" opacity="0.82" />
+<rect x="910.0" y="285" width="121.0" height="14" rx="2" fill="#111827" opacity="0.82" />
+<text class="value" x="784" y="296">+0.552</text>
+<text class="value" x="1084" y="296">+0.542</text>
+<text class="row" x="44" y="331">chr5sec</text>
+<text class="small" x="210" y="331">locomotor</text>
+<rect x="610.0" y="319" width="78.6" height="14" rx="2" fill="#1b9e77" opacity="0.82" />
+<rect x="910.0" y="319" width="112.5" height="14" rx="2" fill="#111827" opacity="0.82" />
+<text class="value" x="784" y="330">+0.352</text>
+<text class="value" x="1084" y="330">+0.504</text>
+<rect x="32" y="342" width="1096" height="34" fill="#f8f9fa" />
+<text class="row" x="44" y="365">balance</text>
+<text class="small" x="210" y="365">locomotor</text>
+<rect x="610.0" y="353" width="55.8" height="14" rx="2" fill="#1b9e77" opacity="0.82" />
+<rect x="910.0" y="353" width="105.7" height="14" rx="2" fill="#111827" opacity="0.82" />
+<text class="value" x="784" y="364">+0.250</text>
+<text class="value" x="1084" y="364">+0.474</text>
+<text class="row" x="44" y="399">grip</text>
+<text class="small" x="210" y="399">vitality</text>
+<rect x="610.0" y="387" width="160.0" height="14" rx="2" fill="#d95f02" opacity="0.82" />
+<rect x="910.0" y="387" width="106.8" height="14" rx="2" fill="#111827" opacity="0.82" />
+<text class="value" x="784" y="398">+0.717</text>
+<text class="value" x="1084" y="398">+0.479</text>
+<rect x="32" y="410" width="1096" height="34" fill="#f8f9fa" />
+<text class="row" x="44" y="433">fev</text>
+<text class="small" x="210" y="433">vitality</text>
+<rect x="610.0" y="421" width="113.1" height="14" rx="2" fill="#d95f02" opacity="0.82" />
+<rect x="910.0" y="421" width="108.1" height="14" rx="2" fill="#111827" opacity="0.82" />
+<text class="value" x="784" y="432">+0.507</text>
+<text class="value" x="1084" y="432">+0.485</text>
+<text class="row" x="44" y="467">hba</text>
+<text class="small" x="210" y="467">vitality</text>
+<rect x="610.0" y="455" width="1.3" height="14" rx="2" fill="#d95f02" opacity="0.82" />
+<rect x="910.0" y="455" width="30.8" height="14" rx="2" fill="#111827" opacity="0.82" />
+<text class="value" x="784" y="466">+0.006</text>
+<text class="value" x="1084" y="466">+0.138</text>
+<rect x="32" y="478" width="1096" height="34" fill="#f8f9fa" />
+<text class="row" x="44" y="501">imrc</text>
+<text class="small" x="210" y="501">cognitive</text>
+<rect x="610.0" y="489" width="128.4" height="14" rx="2" fill="#756bb1" opacity="0.82" />
+<rect x="910.0" y="489" width="84.1" height="14" rx="2" fill="#111827" opacity="0.82" />
+<text class="value" x="784" y="500">+0.575</text>
+<text class="value" x="1084" y="500">+0.377</text>
+<text class="row" x="44" y="535">dlrc</text>
+<text class="small" x="210" y="535">cognitive</text>
+<rect x="610.0" y="523" width="134.9" height="14" rx="2" fill="#756bb1" opacity="0.82" />
+<rect x="910.0" y="523" width="83.6" height="14" rx="2" fill="#111827" opacity="0.82" />
+<text class="value" x="784" y="534">+0.605</text>
+<text class="value" x="1084" y="534">+0.375</text>
+<rect x="32" y="546" width="1096" height="34" fill="#f8f9fa" />
+<text class="row" x="44" y="569">memory</text>
+<text class="small" x="210" y="569">cognitive</text>
+<rect x="610.0" y="557" width="69.0" height="14" rx="2" fill="#756bb1" opacity="0.82" />
+<rect x="910.0" y="557" width="51.7" height="14" rx="2" fill="#111827" opacity="0.82" />
+<text class="value" x="784" y="568">+0.309</text>
+<text class="value" x="1084" y="568">+0.232</text>
+<text class="row" x="44" y="603">hearing</text>
+<text class="small" x="210" y="603">sensory</text>
+<rect x="610.0" y="591" width="147.4" height="14" rx="2" fill="#6b6b6b" opacity="0.82" />
+<rect x="910.0" y="591" width="7.4" height="14" rx="2" fill="#111827" opacity="0.82" />
+<text class="value" x="784" y="602">+0.661</text>
+<text class="value" x="1084" y="602">+0.033</text>
+<rect x="32" y="614" width="1096" height="34" fill="#f8f9fa" />
+<text class="row" x="44" y="637">nsight</text>
+<text class="small" x="210" y="637">sensory</text>
+<rect x="610.0" y="625" width="83.3" height="14" rx="2" fill="#6b6b6b" opacity="0.82" />
+<rect x="910.0" y="625" width="106.1" height="14" rx="2" fill="#111827" opacity="0.82" />
+<text class="value" x="784" y="636">+0.373</text>
+<text class="value" x="1084" y="636">+0.476</text>
+<text class="row" x="44" y="671">dsight</text>
+<text class="small" x="210" y="671">sensory</text>
+<rect x="610.0" y="659" width="82.3" height="14" rx="2" fill="#6b6b6b" opacity="0.82" />
+<rect x="910.0" y="659" width="107.5" height="14" rx="2" fill="#111827" opacity="0.82" />
+<text class="value" x="784" y="670">+0.369</text>
+<text class="value" x="1084" y="670">+0.482</text>
+<text class="small" x="44" y="726">Continuous: wspeed, chr5sec, grip, fev, hba. Ordinal probit: depres, effort, sleep, happy, lonely, going, balance, imrc, dlrc, memory, hearing, nsight, dsight.</text>
+</svg>

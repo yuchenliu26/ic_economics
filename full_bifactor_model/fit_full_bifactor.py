@@ -17,7 +17,9 @@ try:
         fit_bifactor,
         fit_summary,
         loading_table,
+        observation_count_table,
         prepare_data,
+        sample_individuals,
         threshold_table,
     )
 except ImportError:
@@ -30,7 +32,9 @@ except ImportError:
         fit_bifactor,
         fit_summary,
         loading_table,
+        observation_count_table,
         prepare_data,
+        sample_individuals,
         threshold_table,
     )
 
@@ -38,18 +42,21 @@ except ImportError:
 def parse_args() -> argparse.Namespace:
     repo_root = Path(__file__).resolve().parents[1]
     parser = argparse.ArgumentParser(
-        description="Fit a vanilla mixed continuous/ordinal bifactor model to the 18 IC indicators."
+        description=(
+            "Fit a full-information mixed continuous/ordinal bifactor model "
+            "from 18 per-indicator CSV files."
+        )
     )
     parser.add_argument(
-        "--data",
+        "--data-dir",
         type=Path,
-        default=repo_root / "data" / "filtered_data" / "filtered.csv",
-        help="CSV containing the 18 filtered IC indicator columns.",
+        default=repo_root / "data" / "individual_data",
+        help="Directory containing one idauniq+indicator CSV per IC indicator.",
     )
     parser.add_argument(
         "--output-dir",
         type=Path,
-        default=repo_root / "outputs" / "bifactor1",
+        default=repo_root / "outputs" / "full_bifactor",
         help="Directory for model outputs.",
     )
     parser.add_argument(
@@ -61,20 +68,20 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--maxiter",
         type=int,
-        default=10,
+        default=5,
         help="Maximum L-BFGS-B optimizer iterations.",
     )
     parser.add_argument(
         "--block-size",
         type=int,
         default=2048,
-        help="Observation block size used inside likelihood calculations.",
+        help="Individual block size used inside likelihood calculations.",
     )
     parser.add_argument(
         "--sample-size",
         type=int,
         default=None,
-        help="Optional row count for quick smoke tests or prototyping.",
+        help="Optional individual count for quick smoke tests or prototyping.",
     )
     parser.add_argument(
         "--seed",
@@ -90,24 +97,15 @@ def parse_args() -> argparse.Namespace:
     return parser.parse_args()
 
 
-def maybe_sample_data(input_path: Path, output_dir: Path, sample_size: int | None, seed: int) -> Path:
-    if sample_size is None:
-        return input_path
-
-    df = pd.read_csv(input_path)
-    if sample_size >= len(df):
-        return input_path
-
-    sampled = df.sample(n=sample_size, random_state=seed).sort_index()
-    sampled_path = output_dir / f"sample_{sample_size}_{input_path.name}"
-    sampled.to_csv(sampled_path, index=False)
-    return sampled_path
-
-
 def write_outputs(args: argparse.Namespace) -> None:
     args.output_dir.mkdir(parents=True, exist_ok=True)
-    data_path = maybe_sample_data(args.data, args.output_dir, args.sample_size, args.seed)
-    data = prepare_data(data_path)
+
+    data = prepare_data(args.data_dir)
+    full_n_individuals = data.n_individuals
+    full_n_observations = sum(data.observation_counts.values())
+    if args.sample_size is not None:
+        data = sample_individuals(data, args.sample_size, args.seed)
+
     result, layout = fit_bifactor(
         data=data,
         quadrature_points=args.quadrature_points,
@@ -115,14 +113,31 @@ def write_outputs(args: argparse.Namespace) -> None:
         block_size=args.block_size,
     )
 
-    summary = fit_summary(result, layout)
-    summary["data"] = str(data_path)
+    summary = fit_summary(result, data, layout)
+    summary["data_dir"] = str(args.data_dir)
+    summary["full_n_individuals"] = full_n_individuals
+    summary["full_n_observations"] = int(full_n_observations)
+    summary["sample_size"] = args.sample_size
     summary_path = args.output_dir / "fit_summary.json"
     summary_path.write_text(json.dumps(summary, indent=2) + "\n")
+
+    counts = observation_count_table(data)
+    counts.to_csv(args.output_dir / "observation_counts.csv", index=False)
 
     loadings = loading_table(data, result.params, layout)
     loadings_path = args.output_dir / "factor_loadings.csv"
     loadings.to_csv(loadings_path, index=False)
+
+    weights = loadings.rename(
+        columns={
+            "general_loading": "general_weight",
+            "domain_loading": "domain_weight",
+            "std_general_loading": "std_general_weight",
+            "std_domain_loading": "std_domain_weight",
+        }
+    )
+    weights_path = args.output_dir / "weights.csv"
+    weights.to_csv(weights_path, index=False)
 
     thresholds = threshold_table(data, result.params, layout)
     thresholds.to_csv(args.output_dir / "ordinal_thresholds.csv", index=False)
@@ -140,11 +155,11 @@ def write_outputs(args: argparse.Namespace) -> None:
         )
         scores.to_csv(args.output_dir / "factor_scores.csv", index=False)
 
-    write_loading_svg(loadings, args.output_dir / "figure1_bifactor_loadings.svg")
+    write_loading_svg(loadings, args.output_dir / "figure1_full_bifactor_loadings.svg")
 
     print(f"Wrote {summary_path}")
     print(f"Wrote {loadings_path}")
-    print(f"Wrote {args.output_dir / 'figure1_bifactor_loadings.svg'}")
+    print(f"Wrote {weights_path}")
     print(f"Optimizer success: {result.success} ({result.message})")
     print(f"Log likelihood: {result.log_likelihood:.3f}")
 
@@ -194,10 +209,10 @@ def write_loading_svg(loadings: pd.DataFrame, path: Path) -> None:
         ".small{font-size:11px;fill:#5f6368}",
         ".value{font-size:11px;fill:#202124}",
         "</style>",
-        f'<text class="title" x="{label_x}" y="34">Vanilla bifactor loadings for intrinsic capacity</text>',
+        f'<text class="title" x="{label_x}" y="34">Full-information bifactor loadings for intrinsic capacity</text>',
         (
             f'<text class="subtitle" x="{label_x}" y="56">'
-            "Standardized loadings from a mixed continuous/ordinal probit bifactor model"
+            "Standardized loadings from per-individual repeated indicator files"
             "</text>"
         ),
         f'<text class="header" x="{label_x}" y="78">INDICATOR</text>',

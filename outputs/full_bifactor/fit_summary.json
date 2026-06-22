@@ -1,0 +1,73 @@
+{
+  "success": false,
+  "message": "STOP: TOTAL NO. OF ITERATIONS REACHED LIMIT",
+  "iterations": 5,
+  "objective": 778781.4527434453,
+  "log_likelihood": -778781.4527434453,
+  "n_individuals": 14710,
+  "n_observations": 860936,
+  "observation_counts": {
+    "depres": 59837,
+    "effort": 59825,
+    "sleep": 59841,
+    "happy": 59687,
+    "lonely": 59832,
+    "going": 59786,
+    "wspeed": 53751,
+    "chr5sec": 14164,
+    "balance": 16573,
+    "grip": 21965,
+    "fev": 15322,
+    "hba": 16731,
+    "imrc": 59948,
+    "dlrc": 60073,
+    "memory": 59744,
+    "hearing": 63060,
+    "nsight": 60400,
+    "dsight": 60397
+  },
+  "n_params": 91,
+  "quadrature_points": 5,
+  "factors": [
+    "general",
+    "psychological",
+    "locomotor",
+    "vitality",
+    "cognitive",
+    "sensory"
+  ],
+  "continuous_columns": [
+    "wspeed",
+    "chr5sec",
+    "grip",
+    "fev",
+    "hba"
+  ],
+  "ordinal_columns": [
+    "depres",
+    "effort",
+    "sleep",
+    "happy",
+    "lonely",
+    "going",
+    "balance",
+    "imrc",
+    "dlrc",
+    "memory",
+    "hearing",
+    "nsight",
+    "dsight"
+  ],
+  "orientation": {
+    "general": 1.0,
+    "psychological": 1.0,
+    "locomotor": 1.0,
+    "vitality": 1.0,
+    "cognitive": 1.0,
+    "sensory": 1.0
+  },
+  "data_dir": "/root/ic_economics/data/individual_data",
+  "full_n_individuals": 14710,
+  "full_n_observations": 860936,
+  "sample_size": null
+}
